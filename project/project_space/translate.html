@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRANSLATE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #282727;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .selection-container {
+            text-align: center;
+            margin-bottom: 10px;
+            
+        }
+
+        select {
+            padding: 20px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .display-box {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            min-height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .voice-icon {
+            display: block;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .voice-icon img {
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>TRANSLATE</h2>
+        <div class="selection-container">
+            <label for="languageSelect">Select Language:</label>
+            <select id="languageSelect">
+                
+            </select>
+        </div>
+        <div class="display-box" id="displayBox">Translated text will appear here</div>
+        <div class="voice-icon" id="voiceIcon">
+            <img srcimg src="icon.png" alt="Voice Icon">
+
+        </div>
+    </div>
+
+    <script>
+        const languageSelect = document.getElementById('languageSelect');
+        const displayBox = document.getElementById('displayBox');
+        const voiceIcon = document.getElementById('voiceIcon');
+
+        voiceIcon.addEventListener('click', () => {
+            const textToSpeak = displayBox.textContent;
+            speakText(textToSpeak);
+        });
+
+        async function speakText(text) {
+            try {
+                const utterance = new SpeechSynthesisUtterance(text);
+                const selectedLanguage = languageSelect.value;
+                utterance.lang = selectedLanguage;
+                speechSynthesis.speak(utterance);
+            } catch (error) {
+                console.error('Error speaking text:', error);
+            }
+        }
+    </script>
+</body>
+</html>

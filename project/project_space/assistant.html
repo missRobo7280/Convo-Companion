@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9; /* Light shade of grey */
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 100px auto; /* Center the container */
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .chat-container {
+            overflow-y: scroll;
+            max-height: 300px;
+            padding: 10px;
+            text-align: left;
+        }
+        .chat-message {
+            background-color: #f1f1f1;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background-color: #d3e0fc;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #e8e8e8;
+        }
+        .input-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .voice-button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .voice-button:hover {
+            background-color: #0056b3; /* Darker shade of blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Voice Assistant</h1>
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-message bot-message">Hello! Click the microphone button and speak to me.</div>
+        </div>
+        <div class="input-container">
+            <button class="voice-button" id="voiceButton" onclick="startListening()">🎤</button>
+        </div>
+    </div>
+
+    <script>
+        function startListening() {
+            var recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.start();
+            recognition.onresult = function(event) {
+                var userInput = event.results[0][0].transcript;
+                var chatContainer = document.getElementById("chatContainer");
+
+                var userMessage = '<div class="chat-message user-message">' + userInput + '</div>';
+                chatContainer.innerHTML += userMessage;
+
+                // Simulate bot response (you can replace this with actual backend integration)
+                setTimeout(function() {
+                    var botMessage = '<div class="chat-message bot-message">Sorry, I am just a demo bot. I cannot provide real responses.</div>';
+                    chatContainer.innerHTML += botMessage;
+                    chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll to bottom
+                }, 500);
+            };
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error detected: ' + event.error);
+            };
+        }
+    </script>
+</body>
+</html>
