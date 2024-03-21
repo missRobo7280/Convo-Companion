@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Hunt</title>
+</head>
+<body>
+    <h1 id="content">{{ ans }}</h1>
+    
+    <!-- Button to trigger text-to-speech -->
+    <button onclick="speakText()">Speak</button>
+
+    <script>
+        // Function to speak the text content
+        function speakText() {
+            // Get the text content
+            var text = document.getElementById("content").innerText;
+            
+            // Create a speech synthesis utterance
+            var utterance = new SpeechSynthesisUtterance(text);
+
+            // Speak the utterance
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>

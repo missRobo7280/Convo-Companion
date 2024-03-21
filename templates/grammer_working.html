@@ -1,0 +1,42 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+
+ <link rel="stylesheet" href="./static/css/voice_style.css">
+ <title>Voice Assistant</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Voice Assistant</h1>
+    <form action="/grammer_correct" method="POST">
+      <button type="submit" class="button"><i class="fas fa-microphone"></i></button>
+    </form>
+    {% if a!='' %}
+    <h1 id="content">Corrected Sentence : {{a}}</h1>
+    <h1>Metrics : {{b}}</h1>
+    {% else %}
+    <h1>Audio is not Reading Try Again</h1>
+    {% endif %}
+    <button class="button" onclick="speakText()"><i class="fa-solid fa-volume-high"></i></button> <!-- font awesome icon -->
+    <input type="text" class="text" placeholder="Press to listen" readonly>
+  </div>
+
+  <!-- <script src="https://code.responsivevoice.org/responsivevoice.js?key=YOUR_KEY"></script>
+  <script src="script.js"></script> -->
+    
+    <script>
+      // Function to speak the text content
+      function speakText() {
+          // Get the text content
+          var text = document.getElementById("content").innerText;
+          
+          // Create a speech synthesis utterance
+          var utterance = new SpeechSynthesisUtterance(text);
+
+          // Speak the utterance
+          window.speechSynthesis.speak(utterance);
+      }
+  </script>
+</body>
+</html>

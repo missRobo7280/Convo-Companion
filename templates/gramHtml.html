@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your head content -->
+</head>
+<body>
+    <!-- Your body content -->
+    <div class="container">
+        <h1>Voice Assistant</h1>
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-message bot-message">Hello! Click the microphone button and speak to me.</div>
+        </div>
+        <div class="input-container">
+            <button class="voice-button" id="voiceButton" onclick="startListening()">🎤</button>
+        </div>
+    </div>
+
+    <script>
+        function startListening() {
+            var recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.start();
+            recognition.onresult = function(event) {
+                var userInput = event.results[0][0].transcript;
+
+                // Make AJAX request to Flask server
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://localhost:5000/process', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                        var responseData = JSON.parse(xhr.responseText);
+                        var chatContainer = document.getElementById("chatContainer");
+                        var botMessage = '<div class="chat-message bot-message">' + responseData.response + '</div>';
+                        chatContainer.innerHTML += botMessage;
+                        chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll to bottom
+                    }
+                };
+                xhr.send(JSON.stringify({text: userInput}));
+            };
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error detected: ' + event.error);
+            };
+        }
+    </script>
+</body>
+</html>

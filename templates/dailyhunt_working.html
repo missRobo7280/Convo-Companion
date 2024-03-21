@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .word-display {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="content">{{ ans }}</h1>
+        <div class="button-container">
+            <button onclick="speakText()">Speak</button>
+            <!-- <button onclick="getNewWord()">Get New Word</button> -->
+        </div>
+    </div>
+
+    <!-- <script>
+        function getNewWord() {
+            // Array of sample words
+            const words = ['apple', 'banana', 'carrot', 'dog', 'elephant', 'fish', 'giraffe', 'horse', 'iguana', 'jaguar'];
+
+            // Get a random index from the words array
+            const randomIndex = Math.floor(Math.random() * words.length);
+
+            // Get the word corresponding to the random index
+            const word = words[randomIndex];
+
+            // Display the word in the output box
+            document.getElementById('wordDisplay').textContent = word;
+        }
+    </script> -->
+
+    <script>
+        // Function to speak the text content
+        function speakText() {
+            // Get the text content
+            var text = document.getElementById("content").innerText;
+            
+            // Create a speech synthesis utterance
+            var utterance = new SpeechSynthesisUtterance(text);
+
+            // Speak the utterance
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>

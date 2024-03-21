@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Input</title>
+</head>
+<body>
+    <h1>Speech Recognition</h1>
+    <button id="startButton">Start Listening</button>
+    <p id="output"></p>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const output = document.getElementById('output');
+        
+        // Check if SpeechRecognition is available
+        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+
+            // Set recognition parameters
+            recognition.continuous = false; // Stop listening after a single speech recognition
+            recognition.lang = 'en-US'; // Set language to English (US)
+            recognition.maxAlternatives = 1; // Set maximum number of alternative transcripts to 1
+
+            // Event handler when speech is recognized
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                output.textContent = transcript;
+            };
+
+            // Event handler when recognition is started
+            recognition.onstart = function() {
+                startButton.textContent = 'Listening...';
+            };
+
+            // Event handler when recognition is ended
+            recognition.onend = function() {
+                startButton.textContent = 'Start Listening';
+            };
+
+            // Event handler when error occurs
+            recognition.onerror = function(event) {
+                output.textContent = 'Error occurred: ' + event.error;
+            };
+
+            // Event listener for the start button
+            startButton.addEventListener('click', function() {
+                recognition.start();
+                setTimeout(() => {
+                    recognition.stop();
+                }, 60000); // Stop recognition after 30 seconds
+            });
+        } else {
+            output.textContent = 'Speech recognition not supported in your browser.';
+        }
+    </script>
+</body>
+</html>

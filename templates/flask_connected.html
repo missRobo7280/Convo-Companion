@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Recognition</title>
+</head>
+<body>
+    <h1>Speech Recognition</h1>
+    <button id="startButton">Start Listening</button>
+    <p id="output"></p>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const output = document.getElementById('output');
+        let recognition = new webkitSpeechRecognition(); // for compatibility with some browsers
+
+        // Set recognition parameters
+        recognition.continuous = false; // Stop listening after a single speech recognition
+        recognition.lang = 'en-US'; // Set language to English (US)
+
+        // Event handler when speech is recognized
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            output.textContent = transcript;
+            
+            // Send the recognized text to Flask server
+            fetch('/recognize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'audio_data=' + encodeURIComponent(transcript)
+            })
+            .then(response => response.text())
+            .then(data => console.log(data)) // You can handle the response here
+            .catch(error => console.error('Error:', error));
+        };
+
+        // Event listener for the start button
+        startButton.addEventListener('click', function() {
+            recognition.start();
+            startButton.textContent = 'Listening...';
+        });
+    </script>
+</body>
+</html>

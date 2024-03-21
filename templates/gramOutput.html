@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Recognition</title>
+</head>
+<body>
+    <h1>Speech Recognition</h1>
+    <button id="startButton">Start Listening</button>
+    <p id="output"></p>
+
+    <h1>{{k}}</h1>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const output = document.getElementById('output');
+
+        // Function to handle the speech recognition
+        function recognizeSpeech(audioData) {
+            // Send the audio data to the Flask route
+            fetch('/recognize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'audio_data=' + encodeURIComponent(audioData)
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Display the recognized text on the webpage
+                output.textContent = data; // Update the content of the output paragraph
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Event listener for the start button
+        startButton.addEventListener('click', function() {
+            // Start listening for speech
+            startButton.textContent = 'Listening...';
+
+            // Call the function to start speech recognition
+            // You need to implement this function to capture audio data
+            startSpeechRecognition();
+        });
+
+        // Function to start speech recognition and capture audio data
+        function startSpeechRecognition() {
+            // Implement this function to start capturing audio data
+            // Once audio data is captured, call recognizeSpeech() function with the captured audio data
+        }
+    </script>
+</body>
+</html>

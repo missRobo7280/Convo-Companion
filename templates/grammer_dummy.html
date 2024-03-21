@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammer Check</title>
+</head>
+<body>
+    <h1>Grammer Check</h1>
+    <form action="/grammer_correct" method="POST">
+        <button type="submit">Check My Sentence</button>
+    </form>
+    {% if a!='' %}
+    <h1 id="content">Corrected Grammer : {{a}}</h1>
+    <h1>Improved Grammer : {{b}}</h1>
+    {% else %}
+    <h1>Audio is not Reading Try Again</h1>
+    {% endif %}
+
+    <!-- Button to trigger text-to-speech -->
+    <button onclick="speakText()">Speak</button>
+
+    <script>
+        // Function to speak the text content
+        function speakText() {
+            // Get the text content
+            var text = document.getElementById("content").innerText;
+            
+            // Create a speech synthesis utterance
+            var utterance = new SpeechSynthesisUtterance(text);
+
+            // Speak the utterance
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>
